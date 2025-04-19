@@ -63,4 +63,23 @@ defmodule Raffley.Admin do
   def delete_raffle(%Raffle{} = raffle) do
     Repo.delete(raffle)
   end
+
+  def ticket_tallies do
+    query =
+      from r in "raffles",
+        join: c in "charities",
+        on: r.charity_id == c.id,
+        left_join: t in "tickets",
+        on: t.raffle_id == r.id,
+        order_by: [desc: coalesce(sum(t.price), 0)],
+        group_by: [r.prize, c.name],
+        select: %{
+          prize: r.prize,
+          charity: c.name,
+          ticket_count: count(t.id),
+          ticket_total: coalesce(sum(t.price), 0)
+        }
+
+    Repo.all(query)
+  end
 end
