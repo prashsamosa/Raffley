@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: your-app-name # Replace
+    env: elixir
+    repo: https://github.com/your-username/your-repo.git # Replace
+    branch: main # Or your branch
+    buildCommand: mix deps.get && mix phx.digest --all && mix release
+    startCommand: _build/prod/rel/your_app_name/bin/your_app_name start # Replace
+    healthCheckPath: /
+    envVars:
+      - key: DATABASE_URL
+        value: ${DATABASE_URL}
+      - key: SECRET_KEY_BASE
+        value: ${SECRET_KEY_BASE}
+      - key: POOL_SIZE
+        value: 15 
