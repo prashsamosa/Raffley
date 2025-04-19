@@ -7,8 +7,6 @@ defmodule Raffley.TicketsTest do
     alias Raffley.Tickets.Ticket
 
     import Raffley.TicketsFixtures
-    import Raffley.AccountsFixtures
-    import Raffley.RafflesFixtures
 
     @invalid_attrs %{comment: nil, price: nil}
 
@@ -24,22 +22,14 @@ defmodule Raffley.TicketsTest do
 
     test "create_ticket/1 with valid data creates a ticket" do
       valid_attrs = %{comment: "some comment", price: 42}
-      raffle = raffle_fixture()
-      user = user_fixture()
 
-      assert {:ok, %Ticket{} = ticket} =
-               Tickets.create_ticket(raffle, user, valid_attrs)
-
+      assert {:ok, %Ticket{} = ticket} = Tickets.create_ticket(valid_attrs)
       assert ticket.comment == "some comment"
       assert ticket.price == 42
     end
 
     test "create_ticket/1 with invalid data returns error changeset" do
-      raffle = raffle_fixture()
-      user = user_fixture()
-
-      assert {:error, %Ecto.Changeset{}} =
-               Tickets.create_ticket(raffle, user, @invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Tickets.create_ticket(@invalid_attrs)
     end
 
     test "update_ticket/2 with valid data updates the ticket" do

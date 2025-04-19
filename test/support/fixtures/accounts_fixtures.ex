@@ -5,14 +5,12 @@ defmodule Raffley.AccountsFixtures do
   """
 
   def unique_user_email, do: "user#{System.unique_integer()}@example.com"
-  def unique_user_username, do: "user#{System.unique_integer()}"
   def valid_user_password, do: "hello world!"
 
   def valid_user_attributes(attrs \\ %{}) do
     Enum.into(attrs, %{
       email: unique_user_email(),
-      password: valid_user_password(),
-      username: unique_user_username()
+      password: valid_user_password()
     })
   end
 
@@ -23,20 +21,6 @@ defmodule Raffley.AccountsFixtures do
       |> Raffley.Accounts.register_user()
 
     user
-  end
-
-  def admin_user_fixture(attrs \\ %{}) do
-    {:ok, user} =
-      attrs
-      |> valid_user_attributes()
-      |> Raffley.Accounts.register_user()
-
-    {:ok, admin_user} =
-      user
-      |> Ecto.Changeset.change(%{is_admin: true})
-      |> Raffley.Repo.update()
-
-    admin_user
   end
 
   def extract_user_token(fun) do

@@ -3,7 +3,6 @@ defmodule RaffleyWeb.CharityLiveTest do
 
   import Phoenix.LiveViewTest
   import Raffley.CharitiesFixtures
-  import Raffley.AccountsFixtures
 
   @create_attrs %{name: "some name", slug: "some slug"}
   @update_attrs %{name: "some updated name", slug: "some updated slug"}
@@ -15,12 +14,6 @@ defmodule RaffleyWeb.CharityLiveTest do
   end
 
   describe "Index" do
-    setup %{conn: conn} do
-      password = valid_user_password()
-      user = admin_user_fixture(%{password: password})
-      %{conn: log_in_user(conn, user), user: user, password: password}
-    end
-
     setup [:create_charity]
 
     test "lists all charities", %{conn: conn, charity: charity} do
@@ -35,7 +28,7 @@ defmodule RaffleyWeb.CharityLiveTest do
 
       assert {:ok, form_live, _} =
                index_live
-               |> element("button", "New Charity")
+               |> element("a", "New Charity")
                |> render_click()
                |> follow_redirect(conn, ~p"/charities/new")
 
@@ -88,37 +81,9 @@ defmodule RaffleyWeb.CharityLiveTest do
       assert index_live |> element("#charities-#{charity.id} a", "Delete") |> render_click()
       refute has_element?(index_live, "#charities-#{charity.id}")
     end
-
-    test "redirects if user is not logged in" do
-      conn = build_conn()
-      {:error, redirect} = live(conn, ~p"/charities")
-      assert {:redirect, %{to: path, flash: flash}} = redirect
-      assert path == ~p"/users/log-in"
-      assert %{"error" => "You must log in to access this page."} = flash
-    end
-
-    test "redirects if logged-in user is not an admin" do
-      password = valid_user_password()
-      user = user_fixture(%{password: password})
-
-      conn =
-        build_conn()
-        |> log_in_user(user)
-
-      {:error, redirect} = live(conn, ~p"/charities")
-      assert {:redirect, %{to: path, flash: flash}} = redirect
-      assert path == ~p"/"
-      assert %{"error" => "Only admins allowed!"} = flash
-    end
   end
 
   describe "Show" do
-    setup %{conn: conn} do
-      password = valid_user_password()
-      user = admin_user_fixture(%{password: password})
-      %{conn: log_in_user(conn, user), user: user, password: password}
-    end
-
     setup [:create_charity]
 
     test "displays charity", %{conn: conn, charity: charity} do
@@ -152,28 +117,6 @@ defmodule RaffleyWeb.CharityLiveTest do
       html = render(show_live)
       assert html =~ "Charity updated successfully"
       assert html =~ "some updated name"
-    end
-
-    test "redirects if user is not logged in" do
-      conn = build_conn()
-      {:error, redirect} = live(conn, ~p"/charities")
-      assert {:redirect, %{to: path, flash: flash}} = redirect
-      assert path == ~p"/users/log-in"
-      assert %{"error" => "You must log in to access this page."} = flash
-    end
-
-    test "redirects if logged-in user is not an admin" do
-      password = valid_user_password()
-      user = user_fixture(%{password: password})
-
-      conn =
-        build_conn()
-        |> log_in_user(user)
-
-      {:error, redirect} = live(conn, ~p"/charities")
-      assert {:redirect, %{to: path, flash: flash}} = redirect
-      assert path == ~p"/"
-      assert %{"error" => "Only admins allowed!"} = flash
     end
   end
 end

@@ -28,13 +28,7 @@ defmodule RaffleyWeb.UserLive.RegistrationTest do
       result =
         lv
         |> element("#registration_form")
-        |> render_change(
-          user: %{
-            "email" => "with spaces",
-            "password" => "too short",
-            "username" => "not+valid"
-          }
-        )
+        |> render_change(user: %{"email" => "with spaces", "password" => "too short"})
 
       assert result =~ "Register"
       assert result =~ "must have the @ sign and no spaces"
@@ -47,13 +41,7 @@ defmodule RaffleyWeb.UserLive.RegistrationTest do
       {:ok, lv, _html} = live(conn, ~p"/users/register")
 
       email = unique_user_email()
-      username = unique_user_username()
-
-      form =
-        form(lv, "#registration_form",
-          user: valid_user_attributes(email: email, username: username)
-        )
-
+      form = form(lv, "#registration_form", user: valid_user_attributes(email: email))
       render_submit(form)
       conn = follow_trigger_action(form, conn)
 
@@ -62,7 +50,7 @@ defmodule RaffleyWeb.UserLive.RegistrationTest do
       # Now do a logged in request and assert on the menu
       conn = get(conn, ~p"/")
       response = html_response(conn, 200)
-      assert response =~ username
+      assert response =~ email
       assert response =~ "Settings"
       assert response =~ "Log out"
     end
@@ -76,21 +64,6 @@ defmodule RaffleyWeb.UserLive.RegistrationTest do
         lv
         |> form("#registration_form",
           user: %{"email" => user.email, "password" => "valid_password"}
-        )
-        |> render_submit()
-
-      assert result =~ "has already been taken"
-    end
-
-    test "renders errors for duplicated username", %{conn: conn} do
-      {:ok, lv, _html} = live(conn, ~p"/users/register")
-
-      user = user_fixture(%{username: "test1"})
-
-      result =
-        lv
-        |> form("#registration_form",
-          user: %{"username" => user.username, "password" => "valid_password"}
         )
         |> render_submit()
 

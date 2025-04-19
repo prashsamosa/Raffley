@@ -23,7 +23,7 @@ defmodule RaffleyWeb.Router do
 
     conn = assign(conn, :greeting, greeting)
 
-    # IO.inspect(conn)
+    IO.inspect(conn)
 
     conn
   end
