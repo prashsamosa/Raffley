@@ -1,0 +1,11 @@
+<div class="rules">
+  <h1>The Rules</h1>
+  <p>
+    <%= @emojis %>
+  </p>
+  <ol>
+    <%= for rule <- @rules do %>
+      <li><%= rule.text %></li>
+    <% end %>
+  </ol>
+</div>
