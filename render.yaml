@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: Raffley-app
+    name: raffley
     env: elixir
     repo: https://github.com/prashsamosa/Raffley
     branch: main
@@ -8,10 +8,10 @@ services:
     startCommand: |
       echo "Current working directory:"
       pwd
-      echo "Listing _build/prod/rel/Raffley/bin/:"
-      ls -l _build/prod/rel/Raffley/bin/
+      echo "Listing _build/prod/rel/raffley/bin/:"
+      ls -l _build/prod/rel/raffley/bin/
       echo "Attempting to start the application..."
-      _build/prod/rel/Raffley/bin/Raffley start
+      _build/prod/rel/raffley/bin/raffley start
     healthCheckPath: /
     envVars:
       - key: DATABASE_URL
