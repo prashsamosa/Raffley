@@ -1,11 +1,11 @@
 services:
   - type: web
-    name: Raffley # Replace
+    name: Raffley-app # You can choose a different name for your Render app
     env: elixir
-    repo: https://github.com/prashsamosa/Raffle.git # Replace
-    branch: main # Or your branch
+    repo: https://github.com/prashsamosa/Raffley
+    branch: main # Or your deployment branch (check your repository)
     buildCommand: mix deps.get && mix phx.digest --all && mix release
-    startCommand: _build/prod/rel/Raffley/bin/Raffley start # Replace
+    startCommand: _build/prod/rel/Raffley/bin/Raffley start
     healthCheckPath: /
     envVars:
       - key: DATABASE_URL
@@ -13,5 +13,5 @@ services:
       - key: SECRET_KEY_BASE
         value: ${SECRET_KEY_BASE}
       - key: POOL_SIZE
-        value: 15 # Adjust
-      # Add other env vars if needed
+        value: 15 # Adjust as needed
+      # Add other environment variables your app needs
