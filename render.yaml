@@ -1,17 +1,17 @@
 services:
   - type: web
-    name: Raffley # You can choose a name for your service on Render
-    runtime: elixir # Specify the runtime for your service
-    repo: https://github.com/your-username/your-repo.git # Replace with your repository URL
-    branch: main # Or your deployment branch
+    name: Raffley # Replace
+    env: elixir
+    repo: https://github.com/prashsamosa/Raffle.git # Replace
+    branch: main # Or your branch
     buildCommand: mix deps.get && mix phx.digest --all && mix release
-    startCommand: _build/prod/rel/Raffley/bin/Raffley start
-    healthCheckPath: / # Or a specific health check endpoint
+    startCommand: _build/prod/rel/Raffley/bin/Raffley start # Replace
+    healthCheckPath: /
     envVars:
       - key: DATABASE_URL
         value: ${DATABASE_URL}
       - key: SECRET_KEY_BASE
         value: ${SECRET_KEY_BASE}
       - key: POOL_SIZE
-        value: 15 # Adjust as needed
-      # Add any other environment variables your app needs
+        value: 15 # Adjust
+      # Add other env vars if needed
