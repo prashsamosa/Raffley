@@ -5,7 +5,8 @@
 To start your Phoenix server:
 1. Run `Docker Compose Up` for Postgres.
 2. Run `mix setup` to install and set up dependencies.
-3. Start the Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`.
+3. Run `mix ecto.migrate` to migrate the database.
+4. Start the Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`.
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
