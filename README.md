@@ -1,9 +1,9 @@
 # Raffley
 
-## Getting Started
+## Getting Started (Dev Mode)
 
 To start your Phoenix server:
-
+2. Run `Docker Compose Up` for Postgres.
 1. Run `mix setup` to install and set up dependencies.
 2. Start the Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`.
 
